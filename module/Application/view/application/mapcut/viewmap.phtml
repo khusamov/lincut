@@ -1,0 +1,246 @@
+
+<h1>Сменное задание № <?php echo $job["id"]; ?></h1>
+
+<p class="menu"><a href="#operations">Операции</a> | <a href="#summary">Итоги</a></p>
+
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<!-- ОПЕРАЦИИ -->
+
+<h2><a name="operations">Операции</a></h2>
+
+<?php foreach ($operations as $operationIndex => $operation) { ?>
+
+    <div class="block">
+
+        <table class="operation">
+            <tr>
+                <td>
+                    <a name="operation<?php echo $operationIndex + 1; ?>">
+                        Операция № <?php echo $operationIndex + 1; ?>
+                    </a>
+                </td>
+                <td>
+                    Материал: <?php echo $materials[$operation["wcad_material_id"]]["wcad_material_name"]; ?>
+                </td>
+                <td>
+                    Внешний цвет профиля: <?php echo $details[$operation["details"][0]["wcad_detail_id"]]["wcad_color_out_name"]; ?>
+                </td>
+                <td>
+                    Остаток: <?php echo $operation["detailLenghtTotalTail"]; ?> мм
+                    (<?php echo $operation["detailLenghtTotalTailPercent"]; ?> %)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Артикул материала:  
+                    <a href="#material<?= $operation["wcad_material_id"] ?>" title="Перейти к итогам по данному материалу">
+                        <?php echo $materials[$operation["wcad_material_id"]]["wcad_material_art"]; ?>
+                    </a>
+                </td>
+                <td>
+                    Длина материала: <?php echo $operation["wcad_material_length"]; ?> мм
+                </td>
+                <td>
+                    Внутренний цвет профиля: <?php echo $details[$operation["details"][0]["wcad_detail_id"]]["wcad_color_in_name"]; ?>
+                </td>
+                <td>
+                    Отходы: <?= $waste * 2 ?> мм
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    
+                </td>
+                <td>
+                    Длина деталей: 
+                    <?php echo $operation["detailLenghtTotal"]; ?>
+                    (<?php echo $operation["detailLenghtTotalWithSaw"]; ?>*)
+                    мм
+                </td>
+                <td>
+                    Цвет основы профиля: <?php echo $details[$operation["details"][0]["wcad_detail_id"]]["wcad_color_base_name"]; ?>
+                </td>
+                <td>
+                    Ширина пила: <?php echo $saw; ?> мм
+                </td>
+            </tr>
+        </table>
+        
+        <!-- Схема распила хлыста -->
+            <table class="cuttingScheme">
+                <tr>
+                    <?php foreach ($operation["details"] as $detailIndex => $detail) { ?>
+                        <?php $width = round($detail["wcad_detail_length"] / $operation["wcad_material_length"] * 100); ?>
+                        <td class="length" width="<?= $width ?>%">
+                            <?php echo $detail["wcad_detail_length"]; ?> мм
+                        </td>
+                    <?php } ?>
+                    <td class="length tail lengthTail"></td>
+                </tr>
+                <tr>
+                    <?php foreach ($operation["details"] as $detailIndex => $detail) { ?>
+                        <?php 
+                            $isNotAngleRight90 = ((int) $details[$detail["wcad_detail_id"]]["wcad_detail_angle_right"]) != 90;
+                            $isNotAngleLeft90 = ((int) $details[$detail["wcad_detail_id"]]["wcad_detail_angle_left"]) != 90;
+                        ?>
+                        <td class="index">
+                            <div class="<?=$isNotAngleRight90?"angleRight":""?>">
+                                <div class="<?=$isNotAngleLeft90?"angleLeft":""?>">
+                                    <?php echo $detailIndex + 1; ?>
+                                </div>
+                            </div>
+                        </td>
+                    <?php } ?>
+                    <td class="index tail indexTail"></td>
+                </tr>
+            </table>
+        <!-- / Схема распила хлыста -->
+    
+        <table class="details">
+            <tr>
+                <th>№</th>
+                <th>Артикул материала</th>
+                <th>Длина детали, мм</th>
+                <th>Левый угол</th>
+                <th>Правый угол</th>
+                <th>Заказ</th>
+                <th>Изделие</th>
+                <th>Контур</th>
+                <th>Тип ручки</th>
+                <th>Расстояние до ручки, мм</th>
+                <th>Сторона / ориентация</th>
+                <!-- <th>Внешний цвет профиля</th>
+                <th>Внутренний цвет профиля</th>
+                <th>Цвет основы профиля</th> -->
+            </tr>
+            <?php foreach ($operation["details"] as $detailIndex => $detail) { ?>
+                <tr>
+                    <td><?php echo $detailIndex + 1; ?></td>
+                    <td><?php echo $details[$detail["wcad_detail_id"]]["wcad_material_art"]; ?></td>
+                    <td><?php echo $detail["wcad_detail_length"]; ?></td>
+                    <td><?php echo $details[$detail["wcad_detail_id"]]["wcad_detail_angle_left"]; ?></td>
+                    <td><?php echo $details[$detail["wcad_detail_id"]]["wcad_detail_angle_right"]; ?></td>
+                    <td><?php echo $details[$detail["wcad_detail_id"]]["wcad_order_id"]; ?></td>
+                    <td><?php echo $details[$detail["wcad_detail_id"]]["wcad_product_id"]; ?></td>
+                    <td><?php echo $details[$detail["wcad_detail_id"]]["wcad_contur_num"]; ?></td>
+                    <td><?php echo $details[$detail["wcad_detail_id"]]["wcad_machine_code"]; ?></td>
+                    <td><?php echo $details[$detail["wcad_detail_id"]]["wcad_distance_to_handle"]; ?></td>
+                    <td><?php echo $details[$detail["wcad_detail_id"]]["wcad_size"]; ?></td>
+                    <!-- <td><?php echo $details[$detail["wcad_detail_id"]]["wcad_color_out_name"]; ?></td>
+                    <td><?php echo $details[$detail["wcad_detail_id"]]["wcad_color_in_name"]; ?></td>
+                    <td><?php echo $details[$detail["wcad_detail_id"]]["wcad_color_base_name"]; ?></td> -->
+                </tr>
+            <?php } ?>
+        </table>
+    
+    </div>
+    
+
+<?php } ?>
+
+
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<!-- ИТОГИ -->
+
+<h2><a name="summary">Итоги</a></h2>
+
+<?php foreach ($summary as $materialAndColorId => $material) { ?>
+
+    <div class="block">
+
+        <table class="operation">
+            <tr>
+                <td>
+                    <a name="material<?= $materialAndColorId; ?>">
+                        Артикул материала:  <?php echo $material["art"]; ?>
+                    </a>
+                </td>
+                <td>
+                    Материал: <?php echo $material["name"]; ?>
+                </td>
+                <td>
+                     Внешний цвет профиля: <?php echo $material["wcad_color_out_name"]; ?>
+                </td>
+                <td>
+                    Количество хлыстов: <?php echo count($material["operations"]); ?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    
+                </td>
+                <td>
+                    Длина материала: <?php echo $material["length"]; ?> мм
+                </td>
+                <td>
+                    Внутренний цвет профиля: <?php echo $material["wcad_color_in_name"]; ?>
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    Цвет основы профиля: <?php echo $material["wcad_color_base_name"]; ?>
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+        </table>
+        
+        <table class="summary">
+            <tr>
+                <th>№ операции</th>
+                <th>Длина материала, мм</th>
+                <th>Длина деталей, мм</th>
+                <th>Длина деталей с учетом пила*, мм</th>
+                <th>Остаток, мм</th>
+                <th>Остаток, %</th>
+                <th>Кол-во деталей</th>
+            </tr>
+            <?php foreach ($material["operations"] as $operationIndex => $operation) { ?>
+                <?php $href = "#operation" . ($operation["index"] + 1);?>
+                <tr>
+                    <td>
+                        <a href="<?=$href?>" title="Перейти к операции">
+                            <?php echo $operation["index"] + 1; ?>
+                        </a>
+                    </td>
+                    <td><?php echo $material["length"]; ?></td>
+                    <td><?php echo $operation["detailLenghtTotal"]; ?></td>
+                    <td><?php echo $operation["detailLenghtTotalWithSaw"]; ?></td>
+                    <td><?php echo $operation["detailLenghtTotalTail"]; ?></td>
+                    <td><?php echo $operation["detailLenghtTotalTailPercent"]; ?></td>
+                    <td><?php echo count($operation["details"]); ?></td>
+                </tr>
+            <?php } ?>
+        </table>
+    
+    </div>
+
+<?php } ?>
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+
+<p>
+    _________<br/>
+    * Длина с учетом ширины пила (сумма длин деталей плюс произведение (количества деталей минус один) на ширину пила). 
+    Ширина пила составляет <?php echo $saw; ?> мм
+</p>
+
+
+
+
+

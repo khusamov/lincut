@@ -1,0 +1,28 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="ru">
+
+  <head>
+  
+      <meta charset="utf-8">
+      
+      <?php if ($title) $this->headTitle($title); ?>
+      <?php echo $this->headTitle('Линейный раскрой')->setSeparator(' - ')->setAutoEscape(false); ?>
+      
+    <!-- Le styles -->
+    <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/images/favicon.ico'))
+        ->appendStylesheet($this->basePath() . '/css/mapcut.css'); 
+    ?>
+    <?php if ($format == "pdf") echo $this->headLink()->appendStylesheet($this->basePath() . '/css/mapcut.pdf.css'); ?>
+    
+  </head>
+
+  <body>
+  
+      <?php echo $this->content; ?>
+      
+  </body>
+  
+</html>
+
+

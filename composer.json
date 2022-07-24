@@ -1,0 +1,8 @@
+{
+	"name" : "khusamov/lincut",
+	"description" : "Lincut",
+	"require" : {
+		"php" : ">=5.3.3",
+		"zendframework/zendframework" : ">=2.3.1"
+	}
+}

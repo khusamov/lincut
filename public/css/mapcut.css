@@ -1,0 +1,116 @@
+@CHARSET "UTF-8";
+
+body {
+  	  margin: 30px 10% 30px 10%;
+}
+
+.block {
+    margin-bottom: 40px;
+}
+
+/* operation */
+
+table.operation {
+	width: 100%;    	
+	border-collapse: collapse;
+	margin-bottom: 10px;    	
+}
+
+table.operation td {
+  width: 25%;    
+}
+
+/* details */    
+
+table.details {
+	width: 100%;    	
+	border-collapse: collapse;    	
+	border-top: 1px black solid;    	
+	border-left: 1px black solid;
+}
+
+table.details th {
+	background-color: #FFE7B9;
+}
+
+table.details th,    
+table.details td {
+	border-bottom: 1px black solid;    	
+	border-right: 1px black solid;  
+	padding: 3px 5px 3px 5px;  	
+}   
+
+table.details td {
+	text-align: center;
+}
+
+/* summary */
+
+table.summary {
+	width: 100%;    	
+	border-collapse: collapse;    	
+	border-top: 1px black solid;    	
+	border-left: 1px black solid;
+}
+
+table.summary th {
+	background-color: #FFE7B9;
+}
+
+table.summary th,    
+table.summary td {
+	border-bottom: 1px black solid;    	
+	border-right: 1px black solid;  
+	padding: 3px 5px 3px 5px;  	
+}   
+
+table.summary td {
+	text-align: center;
+}    
+
+/* cuttingScheme */
+
+table.cuttingScheme {
+	width: 100%;    	
+	border-collapse: collapse; 	
+	border: 0px;   	
+	border-bottom: 1px black solid;    
+	margin-bottom: 10px;    
+	font-size: 80%;	
+}
+   
+table.cuttingScheme td {
+	padding: 0px;    	
+}
+   
+table.cuttingScheme td.length { 	
+}   
+   
+table.cuttingScheme td.index {
+	border-top: 1px black solid;    	
+	border-left: 1px black solid;  	
+}     
+   
+table.cuttingScheme td.index:last-child {
+	border-right: 1px black solid;  
+}  
+   
+table.cuttingScheme td.indexTail {
+  background-color: silver;      
+}
+
+table.cuttingScheme .angleLeft {
+	background-image: url("/images/angle-left.png");
+	background-repeat: no-repeat;
+	background-position: left bottom;
+}    
+
+table.cuttingScheme .angleRight {
+	background-image: url("/images/angle-right.png");
+	background-repeat: no-repeat;    
+	background-position: right bottom;    		    	
+}    
+
+table.cuttingScheme td {
+	text-align: center;
+}
